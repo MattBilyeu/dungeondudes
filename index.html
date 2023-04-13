@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Dungeon Dudes</title>
+        <link type="text/css" rel="stylesheet" href="dd.css">
+    </head>
+    <body>
+        <section id="endWindow" class="hide">
+            <h1>And finally, the heroes succumbed to darkness...</h1>
+            <h2>Congratulations!<br>
+                You've finished your dungeon run.</h2>
+            <p>
+                You healed your heroes by <span id="amountHealed"></span>.<br>
+                You completed <span id="roundsCompleted"></span> rounds.<br>
+                You dealt <span id="damageDealt"></span> damage to enemies.<br>
+                You killed <span id="enemiesKilled"></span> enemies.<br>
+            </p>
+            <h1>Refresh your browser to play again!</h1>
+            <h6>music by bensound.com</h6>
+        </section>
+        <div id="characterArea">
+        <div id="gameboard">
+            <div><img id="pos0" src=""></div>
+            <div></div>
+            <div></div>
+            <div><img id="sel0" src="images/paladin.png"></div>
+            <div><img  id="sel1" src="images/warrior.png"></div>
+            <div></div>
+            <div></div>
+            <div><img><img id="pos4" src=""></div>
+            <div></div>
+            <div><img id="pos1" src=""></div>
+            <div></div>
+            <div><img  id="sel2" src="images/priest.png"></div>
+            <div><img id="sel3" src="images/mage.png"></div>
+            <div></div>
+            <div><img id="pos5" src=""></div>
+            <div></div>
+            <div><img id="pos2" src=""></div>
+            <div></div>
+            <div></div>
+            <div><img id="sel4" src="images/captain.png"></div>
+            <div><img id="sel5" src="images/summoner.png"></div>
+            <div></div>
+            <div></div>
+            <div><img id="pos6" src=""></div>
+            <div></div>
+            <div><img id="pos3" src=""></div>
+            <div></div>
+            <div><img id="sel6" src="images/martyr.png"></div>
+            <div><img id="sel7" src="images/sorcerer.png"></div>
+            <div></div>
+            <div><img id="pos7" src=""></div>
+            <div></div>
+        </div>
+        </div>
+        <div id="statusWindow">
+            <div id="actions">
+                <div class="actionButton"><h1 id="attack">Attack</h1></div>
+                <div class="actionButton"><h1 id="special" >Special</h1></div>
+            </div>
+            <div id="targets" class="hide">
+                <div><h2 id="target4"></h2></div>
+                <div><h2 id="target5"></h2></div>
+                <div><h2 id="target6"></h2></div>
+                <div><h2 id="target7"></h2></div>
+            </div>
+            <div id="charStatus">
+                <div class="status"><h2 id="char0" class="character"></h2></div>
+                <div class="status"><h2 id="char1" class="character"></h2></div>
+                <div class="status"><h2 id="char2" class="character"></h2></div>
+                <div class="status"><h2 id="char3" class="character"></h2></div>
+            </div>
+        </div>
+        <div id="characterSelection">
+            <div id="paladin"></div>
+            <div id="warrior"></div>
+            <div id="mage"></div>
+        </div>
+        <div id="attackMessageWindow" class="hide">
+            <h1 id="attackMessage"></h1>
+            <h4 id="messageNote"></h4>
+        </div>
+        <script src="dd_store.js"></script>    
+        <script src="dd.js"></script>
+    </body>
+</html>

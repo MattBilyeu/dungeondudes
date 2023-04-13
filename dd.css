@@ -1,0 +1,146 @@
+body {
+    width: 1024px;
+    height: 768px;
+    margin: auto;
+    justify-content: center;
+    justify-content: stretch;
+    position: relative;
+    top: 15px;
+    background-color: grey;
+}
+#characterArea {
+    width: 1024px;
+    height: 468px;
+    background-image: url("images/dungeonBackground.jpg");
+}
+#gameboard {
+    display: grid;
+    width: 1024px;
+    height: 468px;
+    grid-template-columns: repeat(8, 128px);
+    grid-template-rows: repeat(4, 117px);
+}
+#statusWindow {
+    height: 300px;
+    width: 1024px;
+    border-radius: 30px;
+    background-color: blue;
+    margin: 0px;
+    border: thick whitesmoke solid;
+    background-color: blue;
+    display: flex;
+    justify-content: space-between;
+}
+#actions {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 256px;
+    position: relative;
+    top: 25px;
+    left: 50px;
+}
+.actionButton {
+    background-color: blue;
+    height: 100px;
+    margin: 15px;
+    border: thick whitesmoke solid;
+    border-radius: 30px;
+    font-family: sans-serif;
+    color: white;
+    text-align: center;
+}
+#charStatus {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 450px;
+    position: relative;
+    top: 18px;
+    right: 55px;
+}
+.status {
+    height: 40px;
+    background-color: blue;
+    width: 450px;
+    border-radius: 30px;
+    margin: 8px;
+    border: thick whitesmoke solid;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    font-family: sans-serif;
+}
+.character {
+    margin: 6px;
+}
+img {
+    position: relative;
+    bottom: 0px;
+}
+.hide {
+    transform: rotateX(90deg);
+}
+#targets {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 256px;
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+}
+#targets div {
+    height: 40px;
+    background-color: blue;
+    width: 450px;
+    border-radius: 30px;
+    margin: 8px;
+    border: thick whitesmoke solid;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    font-family: sans-serif;
+}
+#targets div h2 {
+    margin: 6px;
+}
+#attackMessageWindow {
+    position: absolute;
+    top: 10px;
+    left: 387px;
+    justify-self: center;
+    background-color: blue;
+    border-radius: 30px;
+    border: thick whitesmoke solid;
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    color: white;
+}
+#attackMessage {
+    position: relative;
+    top: -13px;
+}
+#endWindow {
+    position: absolute;
+    top: 15px;
+    left: 295.5px;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    border: thick whitesmoke solid;
+    border-radius: 30px;
+    width: 423px;
+}
+.highlighted {
+    border: thin green solid;
+}
+.flash {
+    background-color: white;
+    border-radius: 50px;
+}
+.red {
+    background-color: red;
+    border-radius: 50px;
+}
