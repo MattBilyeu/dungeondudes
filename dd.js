@@ -4,14 +4,13 @@ let view = {
         img.parentElement.classList.add("highlighted");
         let pos = img.id.substring(3,4);
         controller.selectCharacter(pos);
-        console.log(model.team);
         setTimeout(()=>{
-        if(model.team.length == 4) {
+        if(playerTeam.length == 4) {
             controller.preStart();
         }},10)
     },
     removeSelections: function() {
-        for(let i = 0; i < model.goodRoster.length; i++) {
+        for(let i = 0; i < playerTeam.length; i++) {
             let selImage = document.getElementById("sel"+i);
             selImage.src = "";
         };
@@ -38,20 +37,20 @@ let view = {
             };
         },2000);
         setTimeout(function() {
-            if(model.enemies.length < 1) {
-                model.enemies = [];
-                model.Difficulty = model.Difficulty*1.1;
-                model.Round = model.Round+1;
-                model.populateEnemies();
+            if(enemyTeam.length < 1) {
+                enemyTeam = [];
+                teamFunctions.Difficulty = teamFunctions.Difficulty*1.1;
+                gameState.Round = gameState.Round+1;
+                teamFunctions.populateEnemies();
         }},2000);
     },
     addEnemy: function(index) {
         let spot = index + 4;
         let position = document.getElementById("pos"+spot);
         let target = document.getElementById("target"+spot);
-        let image = model.enemies[index].image
+        let image = enemyTeam[index].image
         position.src = image;
-        target.innerHTML = model.enemies[index].name;
+        target.innerHTML = enemyTeam[index].name;
     },
     addTeam: function(index) {
         let position = document.getElementById("pos"+index);
@@ -183,6 +182,10 @@ const teamFunctions = {
             return false
         }
     }
+}
+const gameState = {
+    Round: 0,
+    //keeps gameState data
 }
 class Character {
     constructor () {
