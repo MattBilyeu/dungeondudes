@@ -79,7 +79,7 @@ img {
     bottom: 0px;
 }
 .hide {
-    transform: rotateX(90deg);
+    display: none;
 }
 #targets {
     display: flex;

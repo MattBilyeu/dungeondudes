@@ -40,7 +40,7 @@ let view = {
             if(enemyTeam.length < 1) {
                 enemyTeam = [];
                 teamFunctions.Difficulty = teamFunctions.Difficulty*1.1;
-                gameState.Round = gameState.Round+1;
+                gameState.round = gameState.round+1;
                 teamFunctions.populateEnemies();
         }},2000);
     },
@@ -55,8 +55,8 @@ let view = {
     addTeam: function(index) {
         let position = document.getElementById("pos"+index);
         let statusSpot = document.getElementById("char"+index);
-        position.src = model.team[index].image;
-        statusSpot.innerHTML = model.team[index].name+" --- "+model.team[index].health+"/100";
+        position.src = playerTeam[index].image;
+        statusSpot.innerHTML = playerTeam[index].name+" --- "+playerTeam[index].health+"/100";
     },
     switchToActionsWindow () {
         let target = document.getElementById("targets");
@@ -79,12 +79,12 @@ let view = {
     highlightCharacterTurn (index) {
         let image = document.getElementById("pos"+index);
         image.parentElement.classList.add("highlighted");
-    },
-    attackAnimation (message,pos,array,messageNote) {
+    }, //Change from highlighting character to highlighting status window - change border color
+    attackAnimation (messageTitle,pos,array,messageNote) {
         let messageWindow = document.getElementById("attackMessageWindow");
         messageWindow.classList.remove("hide");
         let messageText = document.getElementById("attackMessage");
-        messageText.innerHTML = message;
+        messageText.innerHTML = messageTitle;
         let messageSub = document.getElementById("messageNote");
         messageSub.innerHTML = messageNote;
         let target = document.getElementById("pos"+pos);
@@ -109,7 +109,6 @@ let view = {
                 image.setAttribute("class","red");
                 let onHit = new Audio("sound/onHit.mp3");
                 onHit.play();
-                //add damage amount
             }
         },700);
         setTimeout(()=> {
@@ -125,10 +124,10 @@ let view = {
         },1150);
     },
     updateHealth: function() {
-        for (let i = 0; i < model.team.length; i++) {
-            let newHealth = model.team[i].health;
-            let oldHealth = document.getElementById("char"+model.team[i].pos);
-            oldHealth.innerHTML = model.team[i].name+" --- "+newHealth+"/100";
+        for (let i = 0; i < playerTeam.length; i++) {
+            let newHealth = playerTeam[i].health;
+            let oldHealth = document.getElementById("char"+i);
+            oldHealth.innerHTML = playerTeam[i].name+" --- "+newHealth+"/100";
         };
     },
     displayEndWindow: function(amountHealed,roundsCompleted, damageDealt,enemiesKilled) {
@@ -153,16 +152,8 @@ let view = {
     }
 
 }
-let player1 = {}
-let player2 = {}
-let player3 = {}
-let player4 = {}
-let playerTeam = [player1, player2, player3, player4]
-let enemy1 = {}
-let enemy2 = {}
-let enemy3 = {}
-let enemy4 = {}
-let enemyTeam = [enemy1, enemy2, enemy3, enemy4]
+let playerTeam = []
+let enemyTeam = []
 let playerConstructorArray = [Paladin, Barbarian, Priest, Mage, Captain, Summoner, Priestess, Wizard]
 let enemyConstructorArray = []
 const teamFunctions = {
@@ -181,10 +172,27 @@ const teamFunctions = {
             };
             return false
         }
+    },
+    findRandomTarget(array) {
+        let target = undefined;
+        while (target = undefined) {
+            let index = Math.floor(Math.random()*array.length);
+            if (array[index] !== {}) {
+                target = index;
+                return target;
+            }
+        }
     }
 }
 const gameState = {
-    Round: 0,
+    round: 0,
+    roundRecord: 0,
+    amountHealed: 0,
+    healRecord: 0,
+    damageDealt: 0,
+    damageRecord: 0,
+    enemiesKilled: 0,
+    killRecord: 0
     //keeps gameState data
 }
 class Character {
@@ -210,6 +218,8 @@ class Paladin extends Character {
     constructor() {
         this.attack = 50;
         this.defense = 75;
+        this.name = 'Paladin';
+        this.specialName = 'Holy Light'
     }
     special() {
         amountHealed = this.attack/2;
@@ -222,6 +232,8 @@ class Barbarian extends Character {
     constructor() {
         this.attack = 75;
         this.defense = 50;
+        this.name = 'Barbarian';
+        this.specialName = 'Berserk'
     }
     special() {
         damageDealt = this.attack/4;
@@ -235,6 +247,8 @@ class Priest extends Character {
     constructor () {
         this.attack = 20;
         this.defense = 20;
+        this.name = 'Priest';
+        this.specialName = 'Heal'
     }
     special (target) {
         target.health = 100;
@@ -246,6 +260,8 @@ class Mage extends Character {
     constructor () {
         this.attack = 20;
         this.defense = 20;
+        this.name = 'Mage';
+        this.specialName = 'Blast'
     }
     special () {
         let damageDealt = this.attack*2;
@@ -257,7 +273,9 @@ class Mage extends Character {
 class Captain extends Character {
     constructor () {
         this.attack = 5;
-        this.defense = 90
+        this.defense = 90;
+        this.name = 'Captain';
+        this.specialName = 'Fortify'
     }
     special () {
         playerTeam.forEach(item => item.attack = item.attack + this.attack);
@@ -267,7 +285,9 @@ class Captain extends Character {
 class Summoner extends Character {
     constructor () {
         this.attack = 25;
-        this.defense = 35
+        this.defense = 35;
+        this.name = 'Summoner';
+        this.specialName = 'Summon'
     }
     special () {
         for (i = 0; i < playerTeam.length; i++) {
@@ -285,6 +305,8 @@ class Priestess extends Character {
     constructor () {
         this.attack = 20;
         this.defense = 20;
+        this.name = 'Priestess';
+        this.specialName = 'Aura'
     }
     special() {
         playerTeam.forEach(item => item.health = item.health + this.attack);
@@ -294,7 +316,9 @@ class Priestess extends Character {
 class Wizard extends Character {
     constructor () {
         this.attack = 30;
-        this.defense = 80
+        this.defense = 80;
+        this.name = 'Wizard';
+        this.specialName = 'Death'
     }
     special(target) {
         let roll = Math.floor(Math.random()*100);
@@ -308,8 +332,15 @@ class Goblin extends Character {
     constructor () {
         this.attack = 70;
         this.defense = 70;
+        this.name = 'Goblin';
+        this.specialName = 'Pierce'
     }
     special () {
-
+        let target = teamFunctions.findRandomTarget(playerTeam);
+        playerTeam[target].health = playerTeam[target].health - this.attack;
+        let messageTitle = this.specialName;
+        let pos = target;
+        let array = [playerTeam[target]];
+        let messageNote = this.name+' pierces '+playerTeam[target].name+' for '+this.attack
     }
 }
