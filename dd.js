@@ -2,15 +2,9 @@ let view = {
     highlightCharacterSelection: function (img) {
         img = img.target
         img.parentElement.classList.add("highlighted");
-        let pos = img.id.substring(3,4);
-        controller.selectCharacter(pos);
-        setTimeout(()=>{
-        if(playerTeam.length == 4) {
-            controller.preStart();
-        }},10)
     },
     removeSelections: function() {
-        for(let i = 0; i < playerTeam.length; i++) {
+        for(let i = 0; i < 8; i++) {
             let selImage = document.getElementById("sel"+i);
             selImage.src = "";
         };
@@ -77,9 +71,9 @@ let view = {
         }
     },
     highlightCharacterTurn (index) {
-        let image = document.getElementById("pos"+index);
+        let image = document.getElementById("char"+index);
         image.parentElement.classList.add("highlighted");
-    }, //Change from highlighting character to highlighting status window - change border color
+    }, 
     attackAnimation (messageTitle,pos,array,messageNote) {
         let messageWindow = document.getElementById("attackMessageWindow");
         messageWindow.classList.remove("hide");
@@ -182,6 +176,14 @@ const teamFunctions = {
                 return target;
             }
         }
+    },
+    populateEnemies() {
+        for (i = 0; i < 4; i++) {
+            let index = enemyTeam.length;
+            let roll = Math.floor(Math.random()*enemyConstructorArray.length);
+            enemyTeam[enemyTeam.length] = new enemyConstructorArray[roll]();
+            view.addEnemy(index);
+        }
     }
 }
 const gameState = {
@@ -203,12 +205,12 @@ class Character {
     attack(target) {
         let roll = Math.floor(Math.random()*100);
         if (roll < target.defense) {
-            //miss message
+            view.messageWindowOnly('Miss', this.name+' misses the target!')
             //iterate turn
         } else {
             damageDealt = this.attack;
             target.health = target.health - damageDealt;
-            //attack message
+            view.attackAnimation('Attack', target, [], 'Attack for '+damageDealt)
             //check for death
             //iterate turn
         }
@@ -219,7 +221,8 @@ class Paladin extends Character {
         this.attack = 50;
         this.defense = 75;
         this.name = 'Paladin';
-        this.specialName = 'Holy Light'
+        this.specialName = 'Holy Light';
+        this.image = 'images/paladin.png'
     }
     special() {
         amountHealed = this.attack/2;
@@ -233,7 +236,8 @@ class Barbarian extends Character {
         this.attack = 75;
         this.defense = 50;
         this.name = 'Barbarian';
-        this.specialName = 'Berserk'
+        this.specialName = 'Berserk';
+        this.image = 'images/warrior.png'
     }
     special() {
         damageDealt = this.attack/4;
@@ -248,7 +252,8 @@ class Priest extends Character {
         this.attack = 20;
         this.defense = 20;
         this.name = 'Priest';
-        this.specialName = 'Heal'
+        this.specialName = 'Heal';
+        this.image = 'images/priest.png'
     }
     special (target) {
         target.health = 100;
@@ -261,7 +266,8 @@ class Mage extends Character {
         this.attack = 20;
         this.defense = 20;
         this.name = 'Mage';
-        this.specialName = 'Blast'
+        this.specialName = 'Blast';
+        this.image = 'images/mage.png'
     }
     special () {
         let damageDealt = this.attack*2;
@@ -275,7 +281,8 @@ class Captain extends Character {
         this.attack = 5;
         this.defense = 90;
         this.name = 'Captain';
-        this.specialName = 'Fortify'
+        this.specialName = 'Fortify';
+        this.image = 'images/captain.png'
     }
     special () {
         playerTeam.forEach(item => item.attack = item.attack + this.attack);
@@ -287,7 +294,8 @@ class Summoner extends Character {
         this.attack = 25;
         this.defense = 35;
         this.name = 'Summoner';
-        this.specialName = 'Summon'
+        this.specialName = 'Summon';
+        this.image = 'images/summoner.png'
     }
     special () {
         for (i = 0; i < playerTeam.length; i++) {
@@ -306,7 +314,8 @@ class Priestess extends Character {
         this.attack = 20;
         this.defense = 20;
         this.name = 'Priestess';
-        this.specialName = 'Aura'
+        this.specialName = 'Aura';
+        this.image = 'images/priestess.png'
     }
     special() {
         playerTeam.forEach(item => item.health = item.health + this.attack);
